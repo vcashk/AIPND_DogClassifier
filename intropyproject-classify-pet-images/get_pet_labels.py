@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/get_pet_labels.py
 #                                                                             
-# PROGRAMMER: 
+# PROGRAMMER: Vikash Khanna
 # DATE CREATED:                                  
 # REVISED DATE: 
 # PURPOSE: Create the function get_pet_labels that creates the pet labels from 
@@ -40,6 +40,49 @@ def get_pet_labels(image_dir):
       List. The list contains for following item:
          index 0 = pet image label (string)
     """
+    # Creates empty dictionary named results_dic
+    results_dic = dict()
+    # Retrieve the filenames from folder pet_images/
+    filename_list = listdir(image_dir)
+    for idx in range(0, len(filename_list), 1):
+        if filename_list[idx][0] != ".":
+            print("{:2d} file: {:>25}".format(idx + 1, filename_list[idx]) )
+            # Sets pet_image variable to a filename 
+            pet_image = filename_list[idx]
+            # Sets string to lower case letters
+            low_pet_image = pet_image.lower()
+
+            # Splits lower case string by _ to break into words 
+            word_list_pet_image = low_pet_image.split("_")
+
+            # Create pet_name starting as empty string
+            pet_label = ""
+
+            # Loops to check if word in pet name is only
+            # alphabetic characters - if true append word
+            # to pet_name separated by trailing space 
+            for word in word_list_pet_image:
+                if word.isalpha():
+                    pet_label += word + " "
+
+            # Strip off starting/trailing whitespace characters 
+            pet_label = pet_label.strip()
+
+            # Prints resulting pet_name
+            print("\nFilename=", pet_image, "   Label=", pet_label)
+                
+   
+            # Determines number of items in dictionary
+            items_in_dic = len(results_dic)
+            print("\nDictionary results_dic - n items=", items_in_dic)
+            # Adds new key-value pairs to dictionary ONLY when key doesn't already exist. This dictionary's value is
+            # a List that contains only one item - the pet image label
+            if filename_list[idx] not in results_dic:
+                results_dic[filename_list[idx]] = [pet_label]
+                print(results_dic,'\n\n')
+            else:
+                print("** Warning: Key=", filename_list[idx], "already exists in results_dic with value =", results_dic[filename_list[idx]])
+    
     # Replace None with the results_dic dictionary that you created with this
     # function
-    return None
+    return results_dic

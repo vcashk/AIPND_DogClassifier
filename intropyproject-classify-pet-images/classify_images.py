@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/classify_images.py
 #                                                                             
-# PROGRAMMER: 
+# PROGRAMMER: Vikash Khanna
 # DATE CREATED:                                 
 # REVISED DATE: 
 # PURPOSE: Create a function classify_images that uses the classifier function 
@@ -65,4 +65,17 @@ def classify_images(images_dir, results_dic, model):
      Returns:
            None - results_dic is mutable data type so no return needed.         
     """
-    None 
+    for key in results_dic:
+        model1=model.split('/')[0]
+        model_label = classifier(images_dir + key, model1)
+        model_label = model_label.lower()
+        model_label = model_label.strip()
+        truth = results_dic[key][0]
+
+        if truth in model_label:
+            results_dic[key].extend([model_label,1])
+        else:
+            results_dic[key].extend([model_label, 0])
+        print(results_dic[key])
+        
+    None
